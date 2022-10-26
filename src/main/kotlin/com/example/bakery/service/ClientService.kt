@@ -20,7 +20,7 @@ class ClientService(val productRepository: ProductRepository) {
                     category = it.variation.category.name,
                     variation = it.variation.name,
                     originalPrice = it.variation.price,
-                    discount = 0.5,
+                    discount = discount(it.supplyDate, it.expirationDate),
                     supplyDate = it.supplyDate
                 )
             }
@@ -50,10 +50,15 @@ class ClientService(val productRepository: ProductRepository) {
                     category = it.key.category.name,
                     variation = it.key.variation.name,
                     originalPrice = it.key.price,
-                    discount = 0.5,
+                    discount = discount(it.key.supplyDate, it.key.expirationDate),
                     supplyDate = it.key.supplyDate,
                     ids = it.value.map { v -> v.id!! },
                 )
             }
+    }
+
+    private fun discount(supplyDate: LocalDate, expirationDate: LocalDate): Double {
+        println("TODO: calculate discount to supplyDate=$supplyDate, expirationDate=$expirationDate")
+        return 0.5
     }
 }
