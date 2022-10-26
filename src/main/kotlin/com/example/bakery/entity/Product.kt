@@ -1,7 +1,6 @@
 package com.example.bakery.entity
 
 import java.time.LocalDate
-import java.util.*
 import javax.persistence.*
 
 @Entity

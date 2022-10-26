@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct
 class SetUp(val categoryRepository: CategoryRepository, val variationRepository: VariationRepository) {
     @PostConstruct
     fun setUp() {
-        if (categoryRepository.findByName("Хліб") != null) {
+        if (categoryRepository.count() != 0L) {
             return
         }
         val c1 = categoryRepository.save(Category(name = "Хліб"))
