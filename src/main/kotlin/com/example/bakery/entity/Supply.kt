@@ -16,8 +16,8 @@ data class Supply(
     val count: Int,
 
     @Column
-    val supplyDate: Date = Date(),
+    val expirationDate: Date,
 
     @Column
-    val expirationDate: Date,
+    val supplyDate: Date = Date(),
 )
