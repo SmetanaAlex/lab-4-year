@@ -13,7 +13,10 @@ data class Supply(
     val category: Variation,
 
     @Column
-    val supplyDate: Date,
+    val count: Int,
+
+    @Column
+    val supplyDate: Date = Date(),
 
     @Column
     val expirationDate: Date,
