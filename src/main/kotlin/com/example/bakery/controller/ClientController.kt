@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(path = ["/client/products"])
 class ClientController(val clientService: ClientService) {
     @GetMapping
-    fun test(): List<ClientProductResponse> {
+    fun showActiveProducts(): List<ClientProductResponse> {
         return clientService.showActiveProducts()
     }
 
     @GetMapping("/grouped")
-    fun test2(): List<ClientProductShortResponse> {
+    fun showActiveProductsGrouped(): List<ClientProductShortResponse> {
         return clientService.showActiveProductsGrouped()
     }
 }
