@@ -1,1 +1,14 @@
 GET http://localhost:8080/supplier/products/category-variation
+Accept: application/json
+
+###
+POST http://localhost:8080/supplier/products/supply
+Content-Type: application/json
+
+[
+  {
+    "categoryVariationId": 5,
+    "expirationDate": "2023-10-01",
+    "count": 3
+  }
+]
