@@ -9,6 +9,7 @@ Content-Type: application/json
   {
     "categoryVariationId": 5,
     "expirationDate": "2023-10-01",
-    "count": 3
+    "count": 3,
+    "supplyPricePerItem": 2.00
   }
 ]

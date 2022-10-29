@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
 @Service
-class ClientService(val productRepository: ProductRepository) {
+class ClientService(val productRepository: ProductRepository, val discountService: DiscountService) {
     fun showActiveProducts(): List<ClientProductResponse> {
         return productRepository.findAll()
             .filter { it.soldDate == null }
@@ -22,7 +22,7 @@ class ClientService(val productRepository: ProductRepository) {
                     category = it.variation.category.name,
                     variation = it.variation.name,
                     originalPrice = it.variation.price,
-                    discount = discount(it.supplyDate, it.expirationDate),
+                    discount = discountService.discount(it.supplyDate, it.expirationDate, LocalDate.now()),
                     supplyDate = it.supplyDate
                 )
             }
@@ -45,7 +45,7 @@ class ClientService(val productRepository: ProductRepository) {
                     category = it.key.category.name,
                     variation = it.key.variation.name,
                     originalPrice = it.key.price,
-                    discount = discount(it.key.supplyDate, it.key.expirationDate),
+                    discount = discountService.discount(it.key.supplyDate, it.key.expirationDate, LocalDate.now()),
                     supplyDate = it.key.supplyDate,
                     ids = it.value.map { v -> v.id!! },
                 )
@@ -63,10 +63,5 @@ class ClientService(val productRepository: ProductRepository) {
             }
             it
         }.forEach { it.soldDate = LocalDate.now() }
-    }
-
-    private fun discount(supplyDate: LocalDate, expirationDate: LocalDate): Double {
-        println("TODO: calculate discount to supplyDate=$supplyDate, expirationDate=$expirationDate")
-        return 0.5
     }
 }

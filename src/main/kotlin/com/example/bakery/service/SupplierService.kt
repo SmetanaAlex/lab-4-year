@@ -4,9 +4,11 @@ import com.example.bakery.dto.supplier.SupplierCategoryVariationResponse
 import com.example.bakery.dto.supplier.SupplierSupplyRequest
 import com.example.bakery.dto.supplier.SupplierVariationResponse
 import com.example.bakery.entity.Product
+import com.example.bakery.entity.SupplyCosts
 import com.example.bakery.exceptions.BadRequestException
 import com.example.bakery.repository.CategoryRepository
 import com.example.bakery.repository.ProductRepository
+import com.example.bakery.repository.SupplyCostsRepository
 import com.example.bakery.repository.VariationRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -15,7 +17,8 @@ import java.time.LocalDate
 class SupplierService(
     val categoryRepository: CategoryRepository,
     val variationRepository: VariationRepository,
-    val productRepository: ProductRepository
+    val productRepository: ProductRepository,
+    val supplyCostsRepository: SupplyCostsRepository,
 ) {
     fun showCategoryVariation(): List<SupplierCategoryVariationResponse> {
         return categoryRepository.findAll().map { c ->
@@ -40,5 +43,11 @@ class SupplierService(
                 }
             )
         }
+        supplyCostsRepository.save(
+            SupplyCosts(
+                date = LocalDate.now(),
+                amount = request.sumOf { it.count * it.supplyPricePerItem }
+            )
+        )
     }
 }

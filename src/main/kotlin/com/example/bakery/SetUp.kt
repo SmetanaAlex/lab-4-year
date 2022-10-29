@@ -2,9 +2,11 @@ package com.example.bakery
 
 import com.example.bakery.entity.Category
 import com.example.bakery.entity.Product
+import com.example.bakery.entity.SupplyCosts
 import com.example.bakery.entity.Variation
 import com.example.bakery.repository.CategoryRepository
 import com.example.bakery.repository.ProductRepository
+import com.example.bakery.repository.SupplyCostsRepository
 import com.example.bakery.repository.VariationRepository
 import org.springframework.stereotype.Component
 import java.time.LocalDate
@@ -14,7 +16,8 @@ import javax.annotation.PostConstruct
 class SetUp(
     val categoryRepository: CategoryRepository,
     val variationRepository: VariationRepository,
-    val productRepository: ProductRepository
+    val productRepository: ProductRepository,
+    val supplyCostsRepository: SupplyCostsRepository,
 ) {
     @PostConstruct
     fun setUp() {
@@ -41,25 +44,27 @@ class SetUp(
                 Variation(category = c[2], name = "Наполеон", price = 47.00)
             )
         )
+        val demoDate = LocalDate.of(2022, 10, 1)
         productRepository.saveAll(
             listOf(
                 Product(
                     variation = v[0],
-                    supplyDate = LocalDate.of(2022, 10, 1),
+                    supplyDate = demoDate,
                     expirationDate = LocalDate.of(2022, 12, 31)
                 ),
                 Product(
                     variation = v[0],
-                    supplyDate = LocalDate.of(2022, 10, 1),
+                    supplyDate = demoDate,
                     expirationDate = LocalDate.of(2022, 12, 2)
                 ),
                 Product(
                     variation = v[0],
-                    supplyDate = LocalDate.of(2022, 10, 1),
+                    supplyDate = demoDate,
                     expirationDate = LocalDate.of(2022, 12, 31),
                     soldDate = LocalDate.of(2022, 12, 2)
                 ),
             )
         )
+        supplyCostsRepository.save(SupplyCosts(date = demoDate, amount = 3.0))
     }
 }
