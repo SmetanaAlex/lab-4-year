@@ -1,7 +1,7 @@
 package com.example.bakery.controller
 
-import com.example.bakery.dto.ClientProductResponse
-import com.example.bakery.dto.ClientProductShortResponse
+import com.example.bakery.dto.client.ClientProductResponse
+import com.example.bakery.dto.client.ClientProductShortResponse
 import com.example.bakery.service.ClientService
 import org.springframework.web.bind.annotation.*
 

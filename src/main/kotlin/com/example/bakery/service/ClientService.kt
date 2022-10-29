@@ -1,7 +1,7 @@
 package com.example.bakery.service
 
-import com.example.bakery.dto.ClientProductResponse
-import com.example.bakery.dto.ClientProductShortResponse
+import com.example.bakery.dto.client.ClientProductResponse
+import com.example.bakery.dto.client.ClientProductShortResponse
 import com.example.bakery.entity.Category
 import com.example.bakery.entity.Variation
 import com.example.bakery.exceptions.BadRequestException
