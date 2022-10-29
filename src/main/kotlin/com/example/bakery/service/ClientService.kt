@@ -4,8 +4,10 @@ import com.example.bakery.dto.ClientProductResponse
 import com.example.bakery.dto.ClientProductShortResponse
 import com.example.bakery.entity.Category
 import com.example.bakery.entity.Variation
+import com.example.bakery.exceptions.BadRequestException
 import com.example.bakery.repository.ProductRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
 @Service
@@ -37,15 +39,8 @@ class ClientService(val productRepository: ProductRepository) {
         return productRepository.findAll()
             .filter { it.soldDate == null }
             .filter { it.expirationDate >= LocalDate.now() }
-            .groupBy {
-                Key(
-                    category = it.variation.category,
-                    variation = it.variation,
-                    price = it.variation.price,
-                    supplyDate = it.supplyDate,
-                    expirationDate = it.expirationDate,
-                )
-            }.map {
+            .groupBy { Key(it.variation.category, it.variation, it.variation.price, it.supplyDate, it.expirationDate) }
+            .map {
                 ClientProductShortResponse(
                     category = it.key.category.name,
                     variation = it.key.variation.name,
@@ -55,6 +50,19 @@ class ClientService(val productRepository: ProductRepository) {
                     ids = it.value.map { v -> v.id!! },
                 )
             }
+    }
+
+    @Transactional
+    fun order(ids: List<Long>) {
+        productRepository.findAllById(ids).map {
+            if (it.soldDate != null) {
+                throw BadRequestException("product ${it.id} already sold")
+            }
+            if (it.expirationDate < LocalDate.now()) {
+                throw BadRequestException("product ${it.id} is expired")
+            }
+            it
+        }.forEach { it.soldDate = LocalDate.now() }
     }
 
     private fun discount(supplyDate: LocalDate, expirationDate: LocalDate): Double {

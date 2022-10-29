@@ -19,5 +19,5 @@ data class Product(
     val expirationDate: LocalDate,
 
     @Column
-    val soldDate: LocalDate? = null,
+    var soldDate: LocalDate? = null,
 )
